@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.skyshadow.example.presentation.Screen
 import com.skyshadow.example.presentation.animation.PredictiveBackTransition
 import com.skyshadow.example.presentation.util.BackHandler
+import com.skyshadow.example.presentation.util.ThemeStorage
 import com.skyshadow.example.presentation.util.NavPage
 import com.skyshadow.example.presentation.component.MiuixBottomBar
 import com.skyshadow.example.presentation.component.MiuixTopBar
@@ -32,8 +33,8 @@ import top.yukonga.miuix.kmp.theme.ThemeController
 
 @Composable
 fun App() {
-    var followSystem by rememberSaveable { mutableStateOf(true) }
-    var isDarkMode by rememberSaveable { mutableStateOf(false) }
+    var followSystem by remember { mutableStateOf(ThemeStorage.loadFollowSystem()) }
+    var isDarkMode by remember { mutableStateOf(ThemeStorage.loadDarkMode()) }
     val colorMode = if (followSystem) ColorSchemeMode.System
         else if (isDarkMode) ColorSchemeMode.Dark
         else ColorSchemeMode.Light
@@ -136,9 +137,15 @@ fun App() {
                                 modifier = Modifier.fillMaxSize(),
                                 contentPadding = paddingValues,
                                 followSystem = followSystem,
-                                onFollowSystemChange = { followSystem = it },
+                                onFollowSystemChange = {
+                                    followSystem = it
+                                    ThemeStorage.saveFollowSystem(it)
+                                },
                                 isDarkMode = isDarkMode,
-                                onToggleDarkMode = { isDarkMode = it },
+                                onToggleDarkMode = {
+                                    isDarkMode = it
+                                    ThemeStorage.saveDarkMode(it)
+                                },
                             )
                         }
                     }

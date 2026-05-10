@@ -15,6 +15,7 @@ import top.yukonga.miuix.kmp.icon.extended.Contacts
 import top.yukonga.miuix.kmp.icon.extended.Settings
 import top.yukonga.miuix.kmp.icon.extended.VerticalSplit
 import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.theme.lightColorScheme
 
 /**
  * Miuix 悬浮底部导航栏组件。
@@ -31,7 +32,6 @@ fun MiuixBottomBar(
     val icons = listOf(MiuixIcons.VerticalSplit, MiuixIcons.Contacts, MiuixIcons.Settings)
 
     FloatingNavigationBar(
-        color = MiuixTheme.colorScheme.surface.copy(alpha = 0.2f),
         modifier = Modifier.drawBackdrop(
             backdrop = backdrop,
             shape = { RoundedCornerShape(32.dp) },
