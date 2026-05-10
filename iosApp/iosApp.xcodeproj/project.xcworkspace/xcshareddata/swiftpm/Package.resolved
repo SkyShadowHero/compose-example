@@ -1,0 +1,15 @@
+{
+  "originHash" : "ef241a35975237ed327984fbdc95c2b6084c376f28384a247b4d3bf04ae0bb25",
+  "pins" : [
+    {
+      "identity" : "gmobjc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muzipiao/GMObjC.git",
+      "state" : {
+        "revision" : "99c5b17521ddb242e96bea9b96c59ea36a1033dd",
+        "version" : "4.0.3"
+      }
+    }
+  ],
+  "version" : 3
+}

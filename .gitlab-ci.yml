@@ -1,0 +1,50 @@
+stages:
+  - verify
+  - build
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.caching=true -Dorg.gradle.parallel=true"
+  USE_DEMESTIC_MIRROR: "true"
+
+.gradle-cache: &gradle-cache
+  cache:
+    key: "$CI_PROJECT_ID-gradle-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .gradle/wrapper/
+      - .gradle/caches/
+    policy: pull-push
+
+.gradle-setup: &gradle-setup
+  image: ghcr.io/redmadrobot/android/android-sdk:base
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - java -version
+    - chmod +x ./gradlew
+
+compile-check:
+  stage: verify
+  <<: *gradle-setup
+  <<: *gradle-cache
+  tags:
+    - maven
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - ./gradlew :composeApp:compileDebugKotlinAndroid --build-cache --stacktrace
+  interruptible: true
+
+build-android-debug:
+  stage: build
+  <<: *gradle-setup
+  <<: *gradle-cache
+  tags:
+    - maven
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_MESSAGE =~ /\[test-build\]/'
+  script:
+    - ./gradlew :composeApp:assembleDebug --build-cache --stacktrace
+  artifacts:
+    paths:
+      - composeApp/build/outputs/apk/debug/*.apk
+    expire_in: 7 days
