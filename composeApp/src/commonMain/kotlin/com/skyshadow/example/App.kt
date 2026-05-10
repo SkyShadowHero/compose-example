@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.runtime.saveable.rememberSaveable
 import com.skyshadow.example.presentation.Screen
 import com.skyshadow.example.presentation.animation.PredictiveBackTransition
 import com.skyshadow.example.presentation.util.BackHandler
@@ -21,8 +20,8 @@ import com.skyshadow.example.presentation.component.MiuixBottomBar
 import com.skyshadow.example.presentation.component.MiuixTopBar
 import com.skyshadow.example.presentation.screen.HomeScreen
 import com.skyshadow.example.presentation.screen.ProfileScreen
-import com.skyshadow.example.presentation.screen.SettingsScreen
-import com.skyshadow.example.presentation.screen.Settings.ThemeScreen
+import com.skyshadow.example.presentation.screen.Settings.SettingsScreen
+import com.skyshadow.example.presentation.screen.About.AboutScreen
 import kotlinx.coroutines.launch
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.blur.layerBackdrop
@@ -51,6 +50,7 @@ fun App() {
         BackHandler(enabled = currentPage !is NavPage.Tabs) {
             navigateTo(NavPage.Tabs)
         }
+
         val pagerState = rememberPagerState(pageCount = { Screen.tabs.size })
         val coroutineScope = rememberCoroutineScope()
 
@@ -95,16 +95,11 @@ fun App() {
                                         modifier = Modifier.fillMaxSize(),
                                         contentPadding = paddingValues,
                                     )
-
                                     Screen.Profile -> ProfileScreen(
                                         modifier = Modifier.fillMaxSize(),
                                         contentPadding = paddingValues,
-                                    )
-
-                                    Screen.Settings -> SettingsScreen(
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentPadding = paddingValues,
-                                        onNavigateToTheme = { navigateTo(NavPage.Theme) },
+                                        onNavigateToSettings = { navigateTo(NavPage.Settings) },
+                                        onNavigateToAbout = { navigateTo(NavPage.About) },
                                     )
                                 }
                             }
@@ -112,17 +107,17 @@ fun App() {
                     }
                 }
 
-                NavPage.Theme -> {
+                NavPage.Settings -> {
                     val bg = MiuixTheme.colorScheme.background
-                    val themeBackdrop = rememberLayerBackdrop {
+                    val settingsBackdrop = rememberLayerBackdrop {
                         drawRect(bg)
                         drawContent()
                     }
                     Scaffold(
                         topBar = {
                             MiuixTopBar(
-                                backdrop = themeBackdrop,
-                                title = "主题",
+                                backdrop = settingsBackdrop,
+                                title = "设置",
                                 onBack = { navigateTo(NavPage.Tabs) },
                             )
                         },
@@ -131,9 +126,9 @@ fun App() {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .layerBackdrop(themeBackdrop)
+                                .layerBackdrop(settingsBackdrop)
                         ) {
-                            ThemeScreen(
+                            SettingsScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 contentPadding = paddingValues,
                                 followSystem = followSystem,
@@ -146,6 +141,35 @@ fun App() {
                                     isDarkMode = it
                                     ThemeStorage.saveDarkMode(it)
                                 },
+                            )
+                        }
+                    }
+                }
+
+                NavPage.About -> {
+                    val bg = MiuixTheme.colorScheme.background
+                    val aboutBackdrop = rememberLayerBackdrop {
+                        drawRect(bg)
+                        drawContent()
+                    }
+                    Scaffold(
+                        topBar = {
+                            MiuixTopBar(
+                                backdrop = aboutBackdrop,
+                                title = "关于",
+                                onBack = { navigateTo(NavPage.Tabs) },
+                            )
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    ) { paddingValues ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .layerBackdrop(aboutBackdrop)
+                        ) {
+                            AboutScreen(
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = paddingValues,
                             )
                         }
                     }

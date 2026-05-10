@@ -11,15 +11,13 @@ import top.yukonga.miuix.kmp.blur.blur
 import top.yukonga.miuix.kmp.blur.drawBackdrop
 import top.yukonga.miuix.kmp.blur.highlight.Highlight
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.extended.Contacts
-import top.yukonga.miuix.kmp.icon.extended.Settings
-import top.yukonga.miuix.kmp.icon.extended.VerticalSplit
-import top.yukonga.miuix.kmp.theme.MiuixTheme
-import top.yukonga.miuix.kmp.theme.lightColorScheme
+import top.yukonga.miuix.kmp.icon.extended.GridView
+import top.yukonga.miuix.kmp.icon.extended.Info
 
 /**
  * Miuix 悬浮底部导航栏组件。
  *
+ * 两个 Tab：主页 / 信息。
  * 状态由外部管理，通过 [selectedIndex] 和 [onTabChange] 控制。
  */
 @Composable
@@ -28,8 +26,8 @@ fun MiuixBottomBar(
     selectedIndex: Int,
     onTabChange: (Int) -> Unit,
 ) {
-    val items = listOf("首页", "我的", "设置")
-    val icons = listOf(MiuixIcons.VerticalSplit, MiuixIcons.Contacts, MiuixIcons.Settings)
+    val items = listOf("主页", "信息")
+    val icons = listOf(MiuixIcons.GridView, MiuixIcons.Info)
 
     FloatingNavigationBar(
         modifier = Modifier.drawBackdrop(

@@ -67,7 +67,7 @@ fun HomeScreen(
             item {
                 MiuixCard(
                     title = "卡片",
-                    summary = "我是卡片"
+                    summary = "我是一段很长很长的卡片描述"
                 )
             }
             item {

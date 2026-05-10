@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
  */
 sealed class NavPage {
     data object Tabs : NavPage()
-    data object Theme : NavPage()
+    data object Settings : NavPage()
+    data object About : NavPage()
 }
 
 /**
