@@ -24,6 +24,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         mavenLocal()
+        mavenCentral()
         if (System.getenv("USE_DOMESTIC_MIRROR") == "true") {
             maven("https://maven.aliyun.com/repository/public/")
             maven("https://maven.aliyun.com/repository/google/")
@@ -35,7 +36,6 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
-        mavenCentral()
     }
 }
 

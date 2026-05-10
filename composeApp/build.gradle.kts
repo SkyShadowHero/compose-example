@@ -24,9 +24,15 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     sourceSets {
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
@@ -43,8 +49,20 @@ kotlin {
             implementation(libs.miuix.preference)
             implementation(libs.miuix.icons)
             implementation(libs.miuix.navigation3.ui)
+            implementation(libs.miuix.blur)
+            implementation("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
         }
 
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.skyshadow.example.MainKt"
+        jvmArgs(
+            "-Dorg.jetbrains.skiko.scaleFactor=1.5",
+            "-Dskiko.renderApi=OPENGL",
+        )
     }
 }
 
@@ -55,6 +73,7 @@ android {
     defaultConfig {
         applicationId = "com.skyshadow.example"
         minSdk = libs.versions.android.minSdk.get().toInt()
+        //noinspection OldTargetApi
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0.0"
@@ -76,5 +95,5 @@ android {
 }
 
 dependencies {
-    debugImplementation(compose.uiTooling)
+//    debugImplementation(libs.ui.tooling)
 }
